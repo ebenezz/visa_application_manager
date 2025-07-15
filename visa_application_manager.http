@@ -1,0 +1,6 @@
+@visa_application_manager_HostAddress = http://localhost:5226
+
+GET {{visa_application_manager_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
