@@ -11,6 +11,10 @@ namespace visa_application_manager.Models
         public required string Status { get; set; }
         public DateTime CreatedAt { get; set; }
 
-        public required Country Country { get; set; }
+        public Country? Country { get; set; }
+       public bool IsDeleted { get; set; } = false;
+public bool IsPaid { get; set; } = false;
+
+
     }
 }

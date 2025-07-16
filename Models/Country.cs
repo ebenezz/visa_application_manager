@@ -9,6 +9,8 @@ namespace visa_application_manager.Models
         public int ProcessingTimeInDays { get; set; }
 
         public ICollection<Application> Applications { get; set; } = new List<Application>();
+        public bool IsDeleted { get; set; } = false;
+
 
     }
 }
