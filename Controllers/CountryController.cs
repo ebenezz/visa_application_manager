@@ -1,7 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using visa_application_manager.Data;
 using visa_application_manager.Models;
+
 
 namespace visa_application_manager.Controllers
 {
@@ -16,6 +20,7 @@ namespace visa_application_manager.Controllers
             _context = context;
         }
 
+        
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -32,13 +37,15 @@ namespace visa_application_manager.Controllers
                 .FirstOrDefaultAsync(c => c.Id == id && !c.IsDeleted);
 
             if (country == null) return NotFound();
-
             return Ok(country);
         }
-
+        
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Country country)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             country.IsDeleted = false;
 
             _context.Countries.Add(country);
@@ -50,8 +57,12 @@ namespace visa_application_manager.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, [FromBody] Country updatedCountry)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var country = await _context.Countries.FindAsync(id);
-            if (country == null || country.IsDeleted) return NotFound();
+            if (country == null || country.IsDeleted)
+                return NotFound();
 
             country.Name = updatedCountry.Name;
             country.Requirements = updatedCountry.Requirements;
@@ -66,7 +77,8 @@ namespace visa_application_manager.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             var country = await _context.Countries.FindAsync(id);
-            if (country == null || country.IsDeleted) return NotFound();
+            if (country == null || country.IsDeleted)
+                return NotFound();
 
             country.IsDeleted = true;
             await _context.SaveChangesAsync();

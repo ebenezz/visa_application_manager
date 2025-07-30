@@ -1,0 +1,367 @@
+:root {
+  --main-color: #034c36;
+  --dark-color: #003332;
+}
+
+body {
+  overflow-x: hidden; /* Hide overflow */
+}
+
+.circle {
+  position: absolute;
+  top: -150px; /* Adjust distance from top */
+  right: -150px; /* Adjust distance from right */
+  width: 500px; /* Circle diameter */
+  height: 500px; /* Circle diameter */
+  background-color: #048c6b; /* Circle color */
+  border-radius: 50%; /* Make it a circle */
+}
+
+.navbar {
+  position: relative;
+  background-color: #003332a2;
+  color: white;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; /* Allow wrapping on small screens */
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  font-family: "Monaco", monospace;
+  letter-spacing: 1px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+a[mat-button],
+a[mat-stroked-button] {
+  color: white;
+  margin-left: 12px;
+  text-transform: uppercase;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 4px;
+}
+
+/* Hover effect */
+a[mat-button]:hover,
+a[mat-stroked-button]:hover {
+  background-color: rgba(226, 240, 230, 0.2);
+  color: #fff;
+}
+
+.the-block {
+    display: flex; /* Use flexbox layout */
+    align-items: center; /* Center items vertically */
+    justify-content: space-between; /* Space items evenly */
+    flex-wrap: wrap; /* Allow wrapping on small screens */
+    position: relative;
+}
+
+.Welcome-banner {
+    margin-left: 20px; 
+}
+
+.Welcome-banner p {
+  font-size: 30px;
+  font-weight: bold;
+  color: #034c36;
+  background-color: #fff;
+  border-radius: 8px;
+  display: inline-block;
+  padding: 13px 20px;
+  margin-bottom: 10px;
+}
+
+.Welcome-banner h1 {
+  font-size: 60px;
+  font-weight: bold;
+  color: white;
+  line-height: 1.2;
+  margin-top: 20px;
+  
+}
+
+.Welcome-banner h2 {
+  font-weight: bold;
+  color: white;
+  line-height: 1.5;
+  margin-top: 40px;
+}
+
+
+.icon {
+    margin-left: 1px; /* Reduce horizontal spacing */
+    display: flex;
+    justify-content: center; /* Center the image */
+    align-items: center; /* Center vertically */
+}
+
+.massage {
+  font-size: 60px;
+  font-weight: bold;
+  color: white;
+  background-color: #b0b8b491;
+  line-height: 1.1;
+  border-radius: 8px;
+  display: inline-block;
+  margin-top: 22px;
+  margin-right: 150px;
+  margin-bottom: 10px;
+  padding: 25px;
+  height: 30rem;
+  width: fit-content;
+  
+}
+
+
+
+button {
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+  background-color: #07b98e;
+  border-radius: 8px;
+  border-style: none;
+  padding: 13px 20px;
+  margin-bottom: 10px;
+  margin-left: 20%;
+  cursor: pointer;
+}
+
+button:hover{
+  color: #07b98e;
+  background-color: white;
+}
+
+.About {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 40px 20px;
+  gap: 20px; /* Space between elements */
+}
+
+.but {
+  flex: 1 1 400px; /* Grow/shrink as needed, minimum 400px */
+  color: white;
+}
+.About .but h1 {
+  font-size: 48px;
+  font-weight: bold;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.About .but p {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 2;
+  margin-bottom: 20px;
+  margin-right: 35%;
+  margin-left: 30px;
+}
+
+.About .but button {
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  background-color: #07b98e;
+  border-radius: 8px;
+  border: none;
+  padding: 12px 20px;
+  cursor: pointer;
+  margin-left: 50%;
+}
+
+.About .but button:hover{
+  color: #07b98e;
+  background-color: white;
+}
+
+.pic img {
+  max-width: 80%;
+  height: auto;
+  border-radius: 12px;
+  padding: 0;
+}
+.country{
+  margin-left: 40%;
+  font-size: 40px;
+}
+.country-cards {
+  display: flex;
+  gap: 24px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 40px 0;
+}
+
+.country-card {
+  width: 300px;
+  background-color: #ffffff10;
+  color: white;
+  text-align: center;
+  border-radius: 10px;
+  overflow: hidden;
+  backdrop-filter: blur(4px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+  cursor: pointer;
+}
+
+.country-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.15);
+}
+
+mat-card-title {
+  font-size: 24px;
+  margin-top: 10px;
+  color: #fff;
+}
+
+mat-card-content p {
+  font-size: 16px;
+  padding: 10px;
+  color: #e0e0e0;
+}
+
+.footer {
+  background-color: #003332;
+  color: white;
+  padding: 40px 20px 10px;
+  margin-top: 60px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-logo h2 {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+
+.footer-logo p {
+  font-size: 14px;
+  color: #cccccc;
+}
+
+.footer-socials a {
+  color: white;
+  margin: 0 10px;
+  font-size: 24px;
+  transition: color 0.3s;
+}
+
+.footer-socials a:hover {
+  color: #34d399; /* Tailwind emerald-400 */
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 13px;
+  color: #aaa;
+  border-top: 1px solid #ffffff22;
+  padding-top: 10px;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  /* Keep .the-block layout unchanged */
+
+  .About {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .About .but {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  .About .pic img {
+    width: 90%;
+    max-width: 400px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .footer-socials a {
+    font-size: 20px;
+    margin: 5px;
+  }
+
+  .country-cards {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .country-card {
+    width: 90%;
+    max-width: 400px;
+  }
+
+  .navbar {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .Welcome-banner h1 {
+    font-size: 32px;
+  }
+
+  .Welcome-banner h2 {
+    font-size: 16px;
+  }
+
+  .massage {
+    font-size: 30px;
+    padding: 10px;
+  }
+
+  .logo {
+    font-size: 20px;
+  }
+
+  .footer-bottom {
+    font-size: 14px;
+    padding: 10px;
+  }
+
+  .About .but button {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  .navbar a[mat-button],
+  .navbar a[mat-stroked-button] {
+    font-size: 14px;
+    padding: 5px 10px;
+  }
+}
+

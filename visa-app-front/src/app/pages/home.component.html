@@ -1,0 +1,82 @@
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+/>
+
+
+<body>
+  <div class="circle"></div>
+  <mat-toolbar class="navbar mat-elevation-z4">
+    <span class="logo">Visa with Eben</span>
+    <span class="spacer"></span>
+    <a mat-button routerLink="/">Home</a>
+    <a mat-button (click)="scrollToAbout()">About</a>
+    <a mat-stroked-button color="accent" routerLink="/login">Login</a>
+  </mat-toolbar>
+  <div class="the-block">
+    <div class="Welcome-banner">
+      <p>Welcome to</p>
+      <h1>Visa With Eben</h1>
+      <h2>Join countless satisfied clients <br> who have turned their international dreams <br> into reality with our help. <br> Let’s start your journey together!</h2>
+    </div>
+    <div class="icon">
+    <img src="plane_icon.png" alt="Plane" style="width: 500px; height: auto; margin-top: 200px;">
+</div>
+    <div class="massage">
+      <p>START <br> YOUR <br>JOURNEY <br> WITH US!!</p>
+    </div>
+  </div>
+
+  <button> <a  routerLink="/login">Get Started </a></button>
+
+  <div class="About" id="about">
+    <div class="but">
+      <h1> What We Does For You </h1>
+      <p>At Visa with Eben, we understand that navigating the complexities of visa applications and immigration processes can be overwhelming. That’s why we are dedicated to providing personalized, expert guidance tailored to your unique needs. Whether you’re looking to study abroad, pursue a career overseas, or reunite with family, our experienced team is here to simplify the journey for you. <br>
+
+      <br>With a deep understanding of the ever-changing immigration landscape, we offer comprehensive counseling services designed to ensure a smooth and successful application process. From assessing your eligibility to preparing your documents and preparing for interviews, we’re with you every step of the way.</p>
+       <button routerLink="/login">Get Your Visa Approved</button>
+    </div>
+    <div class="pic">
+      <img src="visa_approved.jpg" alt="">
+    </div>
+  </div>
+  <h1 class="country">COUNTRIES</h1>
+  <div class="country-cards">
+  <mat-card *ngFor="let country of countries" class="country-card mat-elevation-z4">
+    <img mat-card-image [src]="country.image" [alt]="country.name" />
+    <mat-card-title>{{ country.name }}</mat-card-title>
+    <mat-card-content>
+      <p>{{ country.description }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>
+<footer class="footer mat-elevation-z4">
+  <div class="footer-content">
+    <div class="footer-logo">
+      <h2>Visa with Eben</h2>
+      <p>Your gateway to a global future.</p>
+    </div>
+    <div class="footer-socials">
+  <a href="#"><i class="fab fa-facebook-f"></i></a>
+  <a href="#"><i class="fab fa-instagram"></i></a>
+  <a href="#"><i class="fab fa-twitter"></i></a>
+  <a href="#"><i class="fab fa-tiktok"></i></a>
+  <a href="#"><i class="fab fa-youtube"></i></a>
+</div>
+
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Visa with Eben. All rights reserved.</p>
+  </div>
+</footer>
+
+
+    
+
+
+
+
+
+  
+</body>

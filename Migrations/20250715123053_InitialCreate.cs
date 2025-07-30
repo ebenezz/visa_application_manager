@@ -11,7 +11,7 @@ namespace visa_application_manager.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
+            _ = migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
                 {
@@ -24,10 +24,10 @@ namespace visa_application_manager.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Countries", x => x.Id);
+                    _ = table.PrimaryKey("PK_Countries", x => x.Id);
                 });
 
-            migrationBuilder.CreateTable(
+            _ = migrationBuilder.CreateTable(
                 name: "Applications",
                 columns: table => new
                 {
@@ -43,8 +43,8 @@ namespace visa_application_manager.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Applications", x => x.Id);
-                    table.ForeignKey(
+                    _ = table.PrimaryKey("PK_Applications", x => x.Id);
+                    _ = table.ForeignKey(
                         name: "FK_Applications_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
@@ -52,7 +52,7 @@ namespace visa_application_manager.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateIndex(
+            _ = migrationBuilder.CreateIndex(
                 name: "IX_Applications_CountryId",
                 table: "Applications",
                 column: "CountryId");
@@ -61,10 +61,10 @@ namespace visa_application_manager.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
+            _ = migrationBuilder.DropTable(
                 name: "Applications");
 
-            migrationBuilder.DropTable(
+            _ = migrationBuilder.DropTable(
                 name: "Countries");
         }
     }
