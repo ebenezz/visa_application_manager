@@ -42,6 +42,11 @@ namespace visa_application_manager.Models
 
         public string? DocumentPath { get; set; }
 
+        public List<Document> Documents { get; set; } = new(); 
+        
+
+        
+
     }
 
 }

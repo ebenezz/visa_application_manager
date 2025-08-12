@@ -11,6 +11,7 @@ namespace visa_application_manager.Data
         public DbSet<Country> Countries { get; set; }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<AuditLog> AuditLogs { get; set; }
+        public DbSet<Document> Documents { get; set; }
 
 
 

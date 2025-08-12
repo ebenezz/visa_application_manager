@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
+import { MatSidenavModule } from "@angular/material/sidenav";
 
 
 @Component({
@@ -16,8 +17,9 @@ import { RouterModule } from '@angular/router';
     MatToolbarModule,
     MatIconModule,
     MatButtonModule,
-    MatCardModule
-  ],
+    MatCardModule,
+    MatSidenavModule
+],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

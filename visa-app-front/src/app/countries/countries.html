@@ -1,0 +1,86 @@
+<mat-card class="country-list-card">
+  <h2>Visa-Supported Countries</h2>
+
+  <table mat-table [dataSource]="countries" class="mat-elevation-z2">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let country">{{ country.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="requirements">
+      <th mat-header-cell *matHeaderCellDef>Requirements</th>
+      <td mat-cell *matCellDef="let country">{{ country.requirements }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="visaFee">
+      <th mat-header-cell *matHeaderCellDef>Visa Fee</th>
+      <td mat-cell *matCellDef="let country">{{ country.visaFee | currency }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="processingTimeInDays">
+      <th mat-header-cell *matHeaderCellDef>Processing Time</th>
+      <td mat-cell *matCellDef="let country">{{ country.processingTimeInDays }} days</td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let country">
+        <button mat-icon-button color="primary" (click)="editCountry(country)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button color="warn" (click)="softDelete(country.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</mat-card>
+
+<mat-card class="country-form-card">
+  <h2>{{ editing ? 'Edit Country' : 'Add Country' }}</h2>
+
+  <form (ngSubmit)="saveCountry()" #countryForm="ngForm">
+    <!-- Country Name (Required) -->
+    <mat-form-field appearance="fill">
+      <mat-label>Name</mat-label>
+      <input matInput [(ngModel)]="form.name" name="name" required #name="ngModel">
+      <mat-error *ngIf="name.invalid && name.touched">
+        Country name is required.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Requirements (Optional) -->
+    <mat-form-field appearance="fill">
+      <mat-label>Requirements</mat-label>
+      <textarea matInput [(ngModel)]="form.requirements" name="requirements"></textarea>
+    </mat-form-field>
+
+    <!-- Visa Fee (Optional but must be positive if entered) -->
+    <mat-form-field appearance="fill">
+      <mat-label>Visa Fee</mat-label>
+      <input matInput type="number" [(ngModel)]="form.visaFee" name="visaFee" min="0" #visaFee="ngModel">
+      <mat-error *ngIf="visaFee.invalid && visaFee.touched">
+        Visa fee must be a positive number.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Processing Time (Optional but must be positive if entered) -->
+    <mat-form-field appearance="fill">
+      <mat-label>Processing Time (days)</mat-label>
+      <input matInput type="number" [(ngModel)]="form.processingTimeInDays" name="processingTimeInDays" min="1" #processingTime="ngModel">
+      <mat-error *ngIf="processingTime.invalid && processingTime.touched">
+        Processing time must be at least 1 day.
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Buttons -->
+    <button mat-raised-button color="primary" type="submit" [disabled]="countryForm.invalid">
+      {{ editing ? 'Update' : 'Add' }}
+    </button>
+    <button mat-button type="button" (click)="resetForm()">Cancel</button>
+  </form>
+</mat-card>

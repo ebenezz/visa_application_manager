@@ -1,0 +1,21 @@
+.chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  padding: 1.5rem;
+  color: rgb(255, 253, 253);
+  background-color: #003332;
+  border-radius: 12px;
+  min-height: 120px;
+  box-sizing: border-box;
+  width: fit-content;
+  height: max-content;
+}
+
+.chart canvas {
+  max-width: 300px;
+  max-height: 300px;
+  width: 100%;
+  height: auto;
+}

@@ -1,0 +1,30 @@
+table {
+  font-family: Arial, sans-serif;
+}
+
+th {
+  background-color: #f3f3f3;
+  font-weight: bold;
+}
+
+.upload-section {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+button {
+  cursor: pointer;
+}
+table {
+  width: 100%;
+}
+
+.mat-header-cell {
+  font-weight: bold;
+}
+
+.mat-elevation-z8 {
+  margin-top: 16px;
+  border-radius: 4px;
+}

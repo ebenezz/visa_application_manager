@@ -20,7 +20,7 @@ namespace visa_application_manager.Controllers
             _context = context;
         }
 
-        
+
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -39,7 +39,7 @@ namespace visa_application_manager.Controllers
             if (country == null) return NotFound();
             return Ok(country);
         }
-        
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] Country country)
         {
@@ -73,17 +73,22 @@ namespace visa_application_manager.Controllers
             return NoContent();
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
-        {
-            var country = await _context.Countries.FindAsync(id);
-            if (country == null || country.IsDeleted)
-                return NotFound();
+        [HttpPut("{id}/soft-delete")]
+public async Task<IActionResult> SoftDelete(int id)
+{
+    var country = await _context.Countries.FindAsync(id);
+    if (country == null || country.IsDeleted)
+        return NotFound();
 
-            country.IsDeleted = true;
-            await _context.SaveChangesAsync();
+    country.IsDeleted = true;
+    await _context.SaveChangesAsync();
 
-            return NoContent();
-        }
+    return NoContent();
+}
+
+
+ 
+        
+
     }
 }

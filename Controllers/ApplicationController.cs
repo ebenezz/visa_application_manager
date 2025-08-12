@@ -1,4 +1,3 @@
-
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -7,6 +6,7 @@ using visa_application_manager.Models;
 using VisaApplicationManager.Models.DTOs;
 using static System.Net.Mime.MediaTypeNames;
 using Application = visa_application_manager.Models.Application;
+
 
 namespace visa_application_manager.Controllers
 {
@@ -59,6 +59,7 @@ namespace visa_application_manager.Controllers
         {
             var app = await _context.Applications
                 .Include(a => a.Country)
+                .Include(a => a.Documents)
                 .FirstOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
 
             if (app == null) return NotFound();
@@ -129,46 +130,64 @@ namespace visa_application_manager.Controllers
         }
 
         [HttpPost("{id}/upload")]
-        public async Task<IActionResult> UploadDocument(int id, IFormFile file)
-        {
-            var app = await _context.Applications.FindAsync(id);
-            if (app == null) return NotFound();
+public async Task<IActionResult> UploadDocument(int id, IFormFile file)
+{
+    var app = await _context.Applications.FindAsync(id);
+    if (app == null) return NotFound();
 
-            var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles");
-            Directory.CreateDirectory(folderPath);
+    var folderPath = Path.Combine(Directory.GetCurrentDirectory(), "UploadedFiles");
+    Directory.CreateDirectory(folderPath);
 
-            var fileName = $"{Guid.NewGuid()}_{file.FileName}";
-            var fullPath = Path.Combine(folderPath, fileName);
+    var fileName = $"{Guid.NewGuid()}_{file.FileName}";
+    var fullPath = Path.Combine(folderPath, fileName);
 
-            using (var stream = new FileStream(fullPath, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
+    using (var stream = new FileStream(fullPath, FileMode.Create))
+    {
+        await file.CopyToAsync(stream);
+    }
 
-            app.DocumentPath = fileName;
+    var document = new Document
+    {
+        Name = file.FileName,
+        Url = $"/files/{fileName}",
+        ApplicationId = app.Id
+    };
+
+    _context.Documents.Add(document);
+
+    _context.AuditLogs.Add(new AuditLog
+    {
+        AdminUsername = "admin",
+        Action = "Upload Document",
+        Entity = "Application",
+        Description = $"Uploaded {file.FileName} for application {id}",
+        Timestamp = DateTime.UtcNow
+    });
+
+    await _context.SaveChangesAsync();
+
+    return Ok(new { document.Name, document.Url });
+}
 
 
+      [HttpGet("{id}/download")]
+public async Task<IActionResult> DownloadApplicationPdf(int id)
+{
+    var app = await _context.Applications
+        .Include(a => a.Country)
+        .Include(a => a.Documents)
+        .FirstOrDefaultAsync(a => a.Id == id && !a.IsDeleted);
 
-            // Audit log
-            _context.AuditLogs.Add(new AuditLog
-            {
-                AdminUsername = "admin", // Replace with token user if JWT is used
-                Action = "Upload Document",
-                Entity = "Application",
-                Description = $"Uploaded {file.FileName} for application {id}",
-                Timestamp = DateTime.UtcNow
-            });
+    if (app == null) return NotFound();
 
-            await _context.SaveChangesAsync();
-            return Ok(new { fileName, url = $"/files/{fileName}" });
+    var pdfBytes = ApplicationPdfGenerator.Generate(app);
 
-        }
-
-
-
+    return File(pdfBytes, "application/pdf", $"Application_{app.Id}.pdf");
+}
 
 
         [HttpGet("summary")]
+        [Authorize]
         public async Task<ActionResult<ApplicationSummaryDto>> GetSummary()
         {
             var total = await _context.Applications.CountAsync();
@@ -186,6 +205,54 @@ namespace visa_application_manager.Controllers
 
             return Ok(summary);
         }
+
+ [HttpPut("{id}/status")]
+public async Task<IActionResult> UpdateStatus(int id, [FromBody] StatusUpdateDto dto)
+{
+    var application = await _context.Applications.FindAsync(id);
+    if (application == null) return NotFound();
+
+    if (!Enum.TryParse<ApplicationStatus>(dto.Status, out var newStatus))
+    {
+        return BadRequest("Invalid status value.");
+    }
+
+    application.Status = newStatus;
+    await _context.SaveChangesAsync();
+
+    return NoContent();
+}
+
+
+
+[HttpPut("{id}/soft-delete")]
+public async Task<IActionResult> SoftDelete(int id, [FromBody] SoftDeleteDto dto)
+{
+    var application = await _context.Applications.FindAsync(id);
+    if (application == null) return NotFound();
+
+    application.IsDeleted = dto.IsDeleted;
+    await _context.SaveChangesAsync();
+
+    return NoContent();
+}
+
+
+[HttpGet("payment-status-summary")]
+public async Task<IActionResult> GetPaymentStatusSummary()
+{
+    var paidCount = await _context.Applications.CountAsync(a => a.IsPaid && !a.IsDeleted);
+    var unpaidCount = await _context.Applications.CountAsync(a => !a.IsPaid && !a.IsDeleted);
+
+    var result = new[]
+    {
+        new { status = "Paid", count = paidCount },
+        new { status = "Unpaid", count = unpaidCount }
+    };
+
+    return Ok(result);
+}
+
 
 
     }

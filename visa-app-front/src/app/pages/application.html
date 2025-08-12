@@ -1,0 +1,58 @@
+<div class="p-4">
+  <h2 class="mat-headline mb-4">Visa Applications</h2>
+
+  <div *ngIf="loading" class="flex justify-center items-center h-32">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <table mat-table [dataSource]="applications" class="mat-elevation-z8" *ngIf="!loading && countries.length">
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="applicantName">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let app">{{ app.applicantName }}</td>
+    </ng-container>
+
+    <!-- Passport Column -->
+    <ng-container matColumnDef="passportNumber">
+      <th mat-header-cell *matHeaderCellDef>Passport</th>
+      <td mat-cell *matCellDef="let app">{{ app.passportNumber }}</td>
+    </ng-container>
+
+    <!-- Country Column -->
+    <ng-container matColumnDef="country">
+      <th mat-header-cell *matHeaderCellDef>Country</th>
+      <td mat-cell *matCellDef="let app">{{ getCountryName(app.countryId) }}</td>
+    </ng-container>
+
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef>Status</th>
+      <td mat-cell *matCellDef="let app">{{ app.status }}</td>
+    </ng-container>
+
+    <!-- Paid Column -->
+    <ng-container matColumnDef="isPaid">
+      <th mat-header-cell *matHeaderCellDef>Paid</th>
+      <td mat-cell *matCellDef="let app">{{ app.isPaid ? 'Yes' : 'No' }}</td>
+    </ng-container>
+
+    <!-- Created Column -->
+    <ng-container matColumnDef="createdAt">
+      <th mat-header-cell *matHeaderCellDef>Created</th>
+      <td mat-cell *matCellDef="let app">{{ app.createdAt | date:'short' }}</td>
+    </ng-container>
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th mat-header-cell *matHeaderCellDef>Actions</th>
+      <td mat-cell *matCellDef="let app">
+        <button mat-button color="primary" (click)="viewDetails(app.id)">View</button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>

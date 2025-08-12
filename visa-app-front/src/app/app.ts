@@ -7,10 +7,9 @@ import { MatCardModule } from '@angular/material/card';
 
 
 
-
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,MatCardModule],
+  imports: [RouterOutlet,MatCardModule,],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -21,8 +20,6 @@ export class App implements OnInit {
   constructor(private authService: AuthService, private router: Router) {
   this.authService.checkTokenAndLogoutIfExpired();
 }
-
-
 
   ngOnInit() {
     this.authService.startIdleMonitor();
@@ -39,10 +36,9 @@ export class App implements OnInit {
       });
   }
 
+  logout() {
+  this.authService.logout();
+}
 
 
-
-
-
-  
 }

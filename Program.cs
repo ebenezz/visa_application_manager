@@ -7,7 +7,11 @@ using System.Text;
 using visa_application_manager.Helpers;
 using Microsoft.OpenApi.Models;
 using Microsoft.Extensions.FileProviders;
+using QuestPDF;
+using QuestPDF.Infrastructure;
 
+
+Settings.License = LicenseType.Community;
 var builder = WebApplication.CreateBuilder(args);
 
 
@@ -53,7 +57,6 @@ builder.Services.AddCors(options =>
 
 
 
-
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Visa API", Version = "v1" });
@@ -96,6 +99,9 @@ builder.Services.AddSwaggerGen();
 
 
 var app = builder.Build();
+app.UseCors("AllowAngular");
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -118,7 +124,7 @@ app.UseAuthorization();
 app.UseHttpsRedirection();
 app.UseStaticFiles(); // for wwwroot
 
+
 app.MapControllers(); // Needed for API endpoints
-app.UseCors("AllowAngular");
 
 app.Run();

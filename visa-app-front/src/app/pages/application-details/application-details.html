@@ -1,0 +1,66 @@
+<mat-card class="app-card">
+  <h2>Application Details</h2>
+
+  <!-- Loading and Error States -->
+  <div *ngIf="loading" class="center">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading application...</p>
+  </div>
+
+  <div *ngIf="error" class="error">{{ error }}</div>
+
+  <!-- Main Content -->
+  <div *ngIf="application && !loading; else notFound">
+
+    <!-- Applicant Info -->
+    <section class="info-section">
+      <p><strong>Name:</strong> {{ application.applicantName }}</p>
+      <p><strong>Passport:</strong> {{ application.passportNumber }}</p>
+      <p><strong>Country:</strong> {{ getCountryName(application.countryId) }}</p>
+      <p><strong>Status:</strong> {{ application.status }}</p>
+      <p><strong>Submitted At:</strong> {{ application.createdAt | date: 'medium' }}</p>
+    </section>
+
+    <!-- Status Update -->
+    <section class="action-section">
+      <mat-form-field appearance="fill">
+        <mat-label>Update Status</mat-label>
+        <mat-select [(ngModel)]="application.status">
+          <mat-option value="Pending">Pending</mat-option>
+          <mat-option value="UnderReview">Under Review</mat-option>
+          <mat-option value="Approved">Approved</mat-option>
+          <mat-option value="Rejected">Rejected</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button color="primary" (click)="updateStatus()">Save</button>
+    </section>
+
+    <!-- File Upload Section -->
+    <section class="upload-section">
+      <h3>Upload Document</h3>
+      <input type="file" (change)="onFileSelected($event)" />
+      <button mat-raised-button color="accent" (click)="uploadDocument()" [disabled]="!selectedFile">
+        Upload
+      </button>
+    </section>
+
+    <!-- Delete Button -->
+    <section class="action-section">
+      <button mat-raised-button color="warn" (click)="softDelete()">Delete Application</button>
+    </section>
+
+   <!-- PDF Download Button -->
+<section class="action-section">
+  <button mat-raised-button color="primary" (click)="downloadPdf()">
+    Download Generated PDF
+  </button>
+</section>
+<button mat-button color="primary" (click)="goToApplication()">Done</button>
+  </div>
+
+  <!-- Not Found Template -->
+  <ng-template #notFound>
+    <p>Application not found.</p>
+  </ng-template>
+</mat-card>
+
