@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using visa_application_manager.Data;
 
@@ -11,9 +12,11 @@ using visa_application_manager.Data;
 namespace visa_application_manager.Migrations
 {
     [DbContext(typeof(VisaDbContext))]
-    partial class VisaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250826065442_UpdateAdminStructure")]
+    partial class UpdateAdminStructure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -61,10 +64,6 @@ namespace visa_application_manager.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -84,7 +83,6 @@ namespace visa_application_manager.Migrations
                         new
                         {
                             Id = 1,
-                            Email = "",
                             Password = "supersecure",
                             Role = 0,
                             Username = "superadmin"
@@ -92,7 +90,6 @@ namespace visa_application_manager.Migrations
                         new
                         {
                             Id = 2,
-                            Email = "",
                             Password = "admin123",
                             Role = 1,
                             Username = "admin"

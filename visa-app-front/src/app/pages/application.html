@@ -5,45 +5,46 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <table mat-table [dataSource]="applications" class="mat-elevation-z8" *ngIf="!loading && countries.length">
+  <!-- Application Table -->
+  <table mat-table [dataSource]="applications" class="mat-elevation-z8" *ngIf="!loading && applications.length">
 
-    <!-- Name Column -->
+    <!-- Applicant Name -->
     <ng-container matColumnDef="applicantName">
       <th mat-header-cell *matHeaderCellDef>Name</th>
       <td mat-cell *matCellDef="let app">{{ app.applicantName }}</td>
     </ng-container>
 
-    <!-- Passport Column -->
+    <!-- Passport -->
     <ng-container matColumnDef="passportNumber">
       <th mat-header-cell *matHeaderCellDef>Passport</th>
       <td mat-cell *matCellDef="let app">{{ app.passportNumber }}</td>
     </ng-container>
 
-    <!-- Country Column -->
+    <!-- Country -->
     <ng-container matColumnDef="country">
       <th mat-header-cell *matHeaderCellDef>Country</th>
       <td mat-cell *matCellDef="let app">{{ getCountryName(app.countryId) }}</td>
     </ng-container>
 
-    <!-- Status Column -->
+    <!-- Status -->
     <ng-container matColumnDef="status">
       <th mat-header-cell *matHeaderCellDef>Status</th>
       <td mat-cell *matCellDef="let app">{{ app.status }}</td>
     </ng-container>
 
-    <!-- Paid Column -->
+    <!-- Paid -->
     <ng-container matColumnDef="isPaid">
       <th mat-header-cell *matHeaderCellDef>Paid</th>
       <td mat-cell *matCellDef="let app">{{ app.isPaid ? 'Yes' : 'No' }}</td>
     </ng-container>
 
-    <!-- Created Column -->
+    <!-- Created -->
     <ng-container matColumnDef="createdAt">
       <th mat-header-cell *matHeaderCellDef>Created</th>
       <td mat-cell *matCellDef="let app">{{ app.createdAt | date:'short' }}</td>
     </ng-container>
 
-    <!-- Actions Column -->
+    <!-- Actions -->
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef>Actions</th>
       <td mat-cell *matCellDef="let app">
@@ -51,8 +52,71 @@
       </td>
     </ng-container>
 
-    <!-- Header and Row Definitions -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+
+  <!-- Inline Add Form -->
+<mat-card class="application-form-card">
+  <h2>Add New Application</h2>
+
+  <form (ngSubmit)="addApplication()" #applicationForm="ngForm">
+    <!-- Applicant Name -->
+    <mat-form-field appearance="fill">
+      <mat-label>Applicant Name</mat-label>
+      <input matInput [(ngModel)]="form.applicantName" name="applicantName" required #name="ngModel">
+      <mat-error *ngIf="name.invalid && name.touched">Name is required.</mat-error>
+    </mat-form-field>
+
+    <!-- Passport Number -->
+    <mat-form-field appearance="fill">
+      <mat-label>Passport Number</mat-label>
+      <input matInput [(ngModel)]="form.passportNumber" name="passportNumber" required #passport="ngModel">
+      <mat-error *ngIf="passport.invalid && passport.touched">Passport number is required.</mat-error>
+    </mat-form-field>
+
+    <!-- Email -->
+    <mat-form-field appearance="fill">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" [(ngModel)]="form.email" name="email" required #email="ngModel">
+      <mat-error *ngIf="email.invalid && email.touched">Valid email is required.</mat-error>
+    </mat-form-field>
+
+    <!-- Phone Number -->
+    <mat-form-field appearance="fill">
+      <mat-label>Phone Number</mat-label>
+      <input matInput [(ngModel)]="form.phoneNumber" name="phoneNumber" required #phone="ngModel">
+      <mat-error *ngIf="phone.invalid && phone.touched">Phone number is required.</mat-error>
+    </mat-form-field>
+
+    <!-- Country -->
+    <mat-form-field appearance="fill">
+      <mat-label>Country</mat-label>
+      <mat-select [(ngModel)]="form.countryId" name="countryId" required #country="ngModel">
+        <mat-option *ngFor="let c of countries" [value]="c.id">{{ c.name }}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="country.invalid && country.touched">Country is required.</mat-error>
+    </mat-form-field>
+
+    <!-- Status -->
+    <mat-form-field appearance="fill">
+      <mat-label>Status</mat-label>
+      <mat-select [(ngModel)]="form.status" name="status" required #status="ngModel">
+        <mat-option value="Pending">Pending</mat-option>
+        <mat-option value="Approved">Approved</mat-option>
+        <mat-option value="Rejected">Rejected</mat-option>
+      </mat-select>
+      <mat-error *ngIf="status.invalid && status.touched">Status is required.</mat-error>
+    </mat-form-field>
+
+    <!-- Paid Checkbox -->
+    <mat-checkbox [(ngModel)]="form.isPaid" name="isPaid">Paid</mat-checkbox>
+
+    <!-- Buttons -->
+    <div class="form-actions">
+      <button mat-raised-button color="primary" type="submit" [disabled]="applicationForm.invalid">Add</button>
+      <button mat-button type="button" (click)="resetForm(applicationForm)">Cancel</button>
+    </div>
+  </form>
+</mat-card>
 </div>

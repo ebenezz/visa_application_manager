@@ -9,8 +9,9 @@ import { jwtDecode } from 'jwt-decode';
 })
 export class AuthService {
   private idleTimeout: any;
-  private baseUrl = 'http://localhost:5226/api'; 
+  private baseUrl = 'http://localhost:5226/api';
   private isBrowserEnv: boolean;
+  private redirected = false;
 
   constructor(
     private http: HttpClient,
@@ -27,11 +28,36 @@ export class AuthService {
     return this.isBrowser() ? localStorage.getItem('token') : null;
   }
 
+  getCurrentUser(): { role: string } | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const payload: any = jwtDecode(token);
+      const roleClaim =
+        payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] ||
+        payload['role']; // fallback for simpler tokens
+      return { role: roleClaim };
+    } catch (e) {
+      console.error('JWT decoding failed:', e);
+      return null;
+    }
+  }
+
+  isSuperAdmin(): boolean {
+    const user = this.getCurrentUser();
+    return user?.role === 'SuperAdmin';
+  }
+
+  hasRole(...roles: string[]): boolean {
+  const user = this.getCurrentUser();
+  return !!user && roles.includes(user.role);
+}
   isLoggedIn(): boolean {
     return this.isBrowser() && !!this.getToken();
   }
 
-  logout() {
+  logout(): void {
     if (this.isBrowser()) {
       localStorage.removeItem('token');
       localStorage.removeItem('admin');
@@ -83,26 +109,21 @@ export class AuthService {
     }
   }
 
-private redirected = false;
+  checkTokenAndLogoutIfExpired(): void {
+    const token = this.getToken();
 
-checkTokenAndLogoutIfExpired() {
-  const token = this.getToken();
-
-  if (token && this.isTokenExpired() && !this.redirected) {
-    this.redirected = true;
-    this.logout();
-    if (this.isBrowser()) {
-      alert('Session expired. Please log in again.');
-      window.location.href = '/login';
+    if (token && this.isTokenExpired() && !this.redirected) {
+      this.redirected = true;
+      this.logout();
+      if (this.isBrowser()) {
+        alert('Session expired. Please log in again.');
+        window.location.href = '/login';
+      }
     }
   }
-}
 
-
-
-  startIdleMonitor(timeoutMs = 15 * 60 * 1000) {
+  startIdleMonitor(timeoutMs = 15 * 60 * 1000): void {
     this.clearIdleMonitor();
-
     if (!this.isBrowser()) return;
 
     const reset = () => {
@@ -121,7 +142,7 @@ checkTokenAndLogoutIfExpired() {
     reset(); // start timer
   }
 
-  clearIdleMonitor() {
+  clearIdleMonitor(): void {
     clearTimeout(this.idleTimeout);
   }
 }

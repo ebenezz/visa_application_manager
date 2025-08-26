@@ -19,6 +19,7 @@
       <p><strong>Country:</strong> {{ getCountryName(application.countryId) }}</p>
       <p><strong>Status:</strong> {{ application.status }}</p>
       <p><strong>Submitted At:</strong> {{ application.createdAt | date: 'medium' }}</p>
+      <p><strong>Payment Status:</strong> {{ application.isPaid ? 'Paid' : 'Unpaid' }}</p>
     </section>
 
     <!-- Status Update -->
@@ -34,6 +35,14 @@
       </mat-form-field>
       <button mat-raised-button color="primary" (click)="updateStatus()">Save</button>
     </section>
+<mat-form-field appearance="fill">
+  <mat-label>Payment Status</mat-label>
+  <mat-select [(ngModel)]="application.isPaid">
+    <mat-option [value]="true">Paid</mat-option>
+    <mat-option [value]="false">Unpaid</mat-option>
+  </mat-select>
+</mat-form-field>
+<button mat-raised-button color="primary" (click)="updatePaymentStatus()">Save Payment Status</button>
 
     <!-- File Upload Section -->
     <section class="upload-section">

@@ -68,6 +68,16 @@ export class ApplicationDetailsComponent implements OnInit {
   this.router.navigate(['/applications']);
 }
 
+updatePaymentStatus() {
+  this.applicationService.updatePaymentStatus(this.application.id, this.application.isPaid).subscribe({
+    next: () => {
+      alert('Payment status updated');
+    },
+    error: () => {
+      alert('Failed to update payment status:');
+    }
+  });
+}
 
   getCountryName(id: number | null | undefined): string {
     if (id == null) return 'Unknown';

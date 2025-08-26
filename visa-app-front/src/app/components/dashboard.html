@@ -33,6 +33,14 @@
   <mat-icon>notifications</mat-icon>
   <span>Notifications</span>
 </a>
+<a mat-list-item
+*ngIf="authService.isSuperAdmin()"
+   routerLink="/create-admin"
+   routerLinkActive="active-link"
+   [routerLinkActiveOptions]="{ exact: true }">
+  <mat-icon>person_add</mat-icon>
+  <span>Create Admin</span>
+</a>
 
     </nav>
 

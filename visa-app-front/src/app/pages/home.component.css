@@ -120,7 +120,10 @@ a[mat-stroked-button]:hover {
   
 }
 
-
+button a {
+  text-decoration: none;
+  color: white;
+}
 
 button {
   font-size: 20px;
@@ -138,6 +141,10 @@ button {
 button:hover{
   color: #07b98e;
   background-color: white;
+}
+
+button a:hover {
+ color: #07b98e;
 }
 
 .About {

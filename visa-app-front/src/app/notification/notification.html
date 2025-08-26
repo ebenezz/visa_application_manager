@@ -1,12 +1,20 @@
-<h2>Notifications</h2>
+<h2>Pending Applications</h2>
 
-<div *ngFor="let note of notificationService.notifications$ | async" class="notification-card" [ngClass]="note.type">
+<div *ngFor="let note of pendingNotifications$ | async" class="notification-card warning">
   <mat-card>
     <mat-card-content>
       <div class="note-content">
         <mat-icon class="note-icon">{{ getIcon(note.type) }}</mat-icon>
         <span>{{ note.message }}</span>
+        <button mat-icon-button (click)="remove(note)">
+          <mat-icon>close</mat-icon>
+        </button>
       </div>
     </mat-card-content>
   </mat-card>
+</div>
+
+<div *ngIf="(pendingNotifications$ | async)?.length === 0" class="empty-state">
+  <mat-icon>check_circle</mat-icon>
+  <p>No pending applications at the moment.</p>
 </div>

@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterModule } from '@angular/router';
 import { MatSidenavModule } from "@angular/material/sidenav";
+import { Router } from '@angular/router';
+import { ViewportScroller } from '@angular/common';
 
 
 @Component({
@@ -25,12 +27,21 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 })
 export class HomeComponent  {
 
+
+constructor(private router: Router, private viewportScroller: ViewportScroller) {}
+
+
 scrollToAbout() {
-  const aboutSection = document.getElementById('about');
-  if (aboutSection) {
-    aboutSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  if (this.router.url === '/') {
+    // Already on home page — just scroll
+    this.viewportScroller.scrollToAnchor('about');
+  } else {
+    // Navigate to home and scroll after navigation
+    this.router.navigate(['/'], { fragment: 'about' });
   }
 }
+
+
 
 
 countries = [

@@ -40,4 +40,8 @@ getPaymentStatusSummary(): Observable<{ status: string, count: number }[]> {
   return this.http.get<{ status: string, count: number }[]>('http://localhost:5226/api/application/payment-status-summary');
 }
 
+updatePaymentStatus(id: number, isPaid: boolean) {
+  return this.http.put(`http://localhost:5226/api/applications/${id}/payment`, { isPaid });
+}
+
 }

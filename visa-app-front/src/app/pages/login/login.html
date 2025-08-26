@@ -6,9 +6,32 @@
       <h1 class="opacity">LOGIN</h1>
 
       <form [formGroup]="loginForm" (ngSubmit)="login()">
-        <input type="text" formControlName="username" placeholder="USERNAME" />
-        <input type="password" formControlName="password" placeholder="PASSWORD" />
+        <input
+          type="text"
+          formControlName="username"
+          placeholder="USERNAME"
+          [class.invalid]="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
+        />
+        <div class="field-error" *ngIf="loginForm.get('username')?.hasError('required') && loginForm.get('username')?.touched">
+          Username is required
+        </div>
+
+        <input
+          type="password"
+          formControlName="password"
+          placeholder="PASSWORD"
+          [class.invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+        />
+        <div class="field-error" *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched">
+          Password is required
+        </div>
+
         <button class="opacity" type="submit">Login</button>
+
+        <!-- Login failure message -->
+        <div class="login-error" *ngIf="errorMessage">
+          {{ errorMessage }}
+        </div>
       </form>
     </div>
     <div class="circle circle-two"></div>

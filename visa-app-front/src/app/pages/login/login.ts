@@ -29,7 +29,12 @@ export class LoginComponent {
     });
   }
 
- 
+ ngOnInit() {
+  this.loginForm.valueChanges.subscribe(() => {
+    this.errorMessage = '';
+  });
+}
+
 login() {
   console.log('Login() method triggered');
   console.log('Form values:', this.loginForm.value);

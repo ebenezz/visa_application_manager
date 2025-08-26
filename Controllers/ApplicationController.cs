@@ -187,24 +187,35 @@ public async Task<IActionResult> DownloadApplicationPdf(int id)
 
 
         [HttpGet("summary")]
-        [Authorize]
-        public async Task<ActionResult<ApplicationSummaryDto>> GetSummary()
-        {
-            var total = await _context.Applications.CountAsync();
-            var pending = await _context.Applications.CountAsync(a => a.Status == ApplicationStatus.Pending);
-            var approved = await _context.Applications.CountAsync(a => a.Status == ApplicationStatus.Approved);
-            var rejected = await _context.Applications.CountAsync(a => a.Status == ApplicationStatus.Rejected);
+[Authorize]
+public async Task<ActionResult<ApplicationSummaryDto>> GetSummary()
+{
+    var total = await _context.Applications
+        .Where(a => !a.IsDeleted)
+        .CountAsync();
 
-            var summary = new ApplicationSummaryDto
-            {
-                Total = total,
-                Pending = pending,
-                Approved = approved,
-                Rejected = rejected
-            };
+    var pending = await _context.Applications
+        .Where(a => a.Status == ApplicationStatus.Pending && !a.IsDeleted)
+        .CountAsync();
 
-            return Ok(summary);
-        }
+    var approved = await _context.Applications
+        .Where(a => a.Status == ApplicationStatus.Approved && !a.IsDeleted)
+        .CountAsync();
+
+    var rejected = await _context.Applications
+        .Where(a => a.Status == ApplicationStatus.Rejected && !a.IsDeleted)
+        .CountAsync();
+
+    var summary = new ApplicationSummaryDto
+    {
+        Total = total,
+        Pending = pending,
+        Approved = approved,
+        Rejected = rejected
+    };
+
+    return Ok(summary);
+}
 
  [HttpPut("{id}/status")]
 public async Task<IActionResult> UpdateStatus(int id, [FromBody] StatusUpdateDto dto)
@@ -237,8 +248,19 @@ public async Task<IActionResult> SoftDelete(int id, [FromBody] SoftDeleteDto dto
     return NoContent();
 }
 
+[HttpPut("{id}/payment")]
+public async Task<IActionResult> UpdatePaymentStatus(int id, [FromBody] PaymentUpdateDto dto)
+{
+    var application = await _context.Applications.FindAsync(id);
+    if (application == null) return NotFound();
 
-[HttpGet("payment-status-summary")]
+    application.IsPaid = dto.IsPaid;
+    await _context.SaveChangesAsync();
+
+    return NoContent();
+}
+
+        [HttpGet("payment-status-summary")]
 public async Task<IActionResult> GetPaymentStatusSummary()
 {
     var paidCount = await _context.Applications.CountAsync(a => a.IsPaid && !a.IsDeleted);

@@ -18,8 +18,21 @@ export class NotificationService {
     this.notificationsSubject.next(this.notifications);
   }
 
+pushPendingApplications(applications: any[]): void {
+  const pendingApps = applications.filter(app => app.status === 'Pending');
+
+  pendingApps.forEach(app => {
+    this.push(`Application #${app.id} (${app.applicantName}) is awaiting review`, 'warning');
+  });
+}
+
   clear(): void {
     this.notifications = [];
     this.notificationsSubject.next([]);
+  }
+
+  remove(note: any): void {
+    this.notifications = this.notifications.filter(n => n !== note);
+    this.notificationsSubject.next(this.notifications);
   }
 }

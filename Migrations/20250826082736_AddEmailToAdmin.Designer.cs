@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using visa_application_manager.Data;
 
@@ -11,9 +12,11 @@ using visa_application_manager.Data;
 namespace visa_application_manager.Migrations
 {
     [DbContext(typeof(VisaDbContext))]
-    partial class VisaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250826082736_AddEmailToAdmin")]
+    partial class AddEmailToAdmin
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

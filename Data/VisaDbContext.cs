@@ -60,9 +60,23 @@ namespace visa_application_manager.Data
                 }
             );
 
-            modelBuilder.Entity<Admin>().HasData(
-            new Admin { Id = 1, Username = "admin", Password = "admin123" }
+             modelBuilder.Entity<Admin>().HasData(
+                new Admin
+                {
+                    Id = 1,
+                    Username = "superadmin",
+                    Password = "supersecure", // 🔐 Hash in production
+                    Role = AdminRole.SuperAdmin
+                },
+                new Admin
+                {
+                    Id = 2,
+                    Username = "admin",
+                    Password = "admin123",
+                    Role = AdminRole.Admin
+                }
             );
+
 
         }
 

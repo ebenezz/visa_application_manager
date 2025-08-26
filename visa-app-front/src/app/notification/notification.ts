@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NotificationService } from '../services/notification.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-notifications',
@@ -12,8 +14,16 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './notification.html',
   styleUrls: ['./notification.css']
 })
-export class NotificationComponent {
+export class NotificationComponent implements OnInit {
+  pendingNotifications$!: Observable<any[]>;
+
   constructor(public notificationService: NotificationService) {}
+
+  ngOnInit(): void {
+    this.pendingNotifications$ = this.notificationService.notifications$.pipe(
+      map(notes => notes.filter(note => note.message.includes('awaiting review')))
+    );
+  }
 
   getIcon(type: string): string {
     switch (type) {
@@ -21,5 +31,9 @@ export class NotificationComponent {
       case 'error': return 'error';
       default: return 'info';
     }
+  }
+
+  remove(note: any): void {
+    this.notificationService.remove(note);
   }
 }

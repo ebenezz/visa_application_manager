@@ -33,7 +33,7 @@ application: any;
 
   constructor(
     private summaryService: SummaryService,
-    private authService: AuthService,
+    public authService: AuthService,
     public router: Router,
   ) {
     // Reactively track route changes

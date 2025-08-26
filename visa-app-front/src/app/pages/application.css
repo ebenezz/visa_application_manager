@@ -28,3 +28,26 @@ table {
   margin-top: 16px;
   border-radius: 4px;
 }
+
+.application-form-card {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+mat-form-field {
+  display: block;
+  margin-bottom: 1rem;
+}
+
+mat-checkbox {
+  margin: 1rem 0;
+  display: block;
+}
+
+.form-actions {
+  margin-top: 1rem;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
